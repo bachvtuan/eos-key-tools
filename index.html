@@ -1,0 +1,210 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdn.jsdelivr.net/npm/eosjs-ecc@4.0.4/lib/eosjs-ecc.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+    .code{
+        font-family: 'Courier New', Courier, monospace;
+        word-break: break-word;
+      }
+    </style>
+  <script>
+    var ecc = eosjs_ecc
+      function generateKey(){
+        ecc.randomKey().then(privateKey => {
+        document.getElementById("private_key").innerHTML = privateKey;
+        document.getElementById("public_key").innerHTML = ecc.privateToPublic(privateKey);
+        })
+      }
+      function showPublicKey(){
+        var privateKey  = document.getElementById("private_key_check").value;
+        try {
+          var publicKey = ecc.privateToPublic(privateKey);  
+          document.getElementById("public_key_export").innerHTML = publicKey;
+          document.getElementById("private_key_export").innerHTML = privateKey;
+        } catch (error) {
+          alert( error.message ? error.message : "Your private key is not valid")
+        }
+      }
+      function fromSeed(){
+        
+        var seed  = document.getElementById("seed").value;
+        try {
+          var privateKey = ecc.seedPrivate(seed)
+          var publicKey = ecc.privateToPublic(privateKey);  
+          document.getElementById("public_key_seed").innerHTML = publicKey;
+          document.getElementById("private_key_seed").innerHTML = privateKey;
+        } catch (error) {
+          alert( error.message ? error.message : "Your seed is not valid")
+        }
+      }
+
+      function sign(){
+        var plainText  = document.getElementById("plain_text").value;
+        var privateKey  = document.getElementById("private_key_signature").value;
+        try {
+          var signatureResult = ecc.sign(plainText, privateKey)
+          document.getElementById("signature_result").innerHTML = signatureResult;
+        } catch (error) {
+          alert(error.message)
+        }
+      }
+      
+      function verifySignature(){
+        var signature  = document.getElementById("signature_for_verify").value;
+        var publicKey  = document.getElementById("public_key_signature").value;
+        var plainText  = document.getElementById("plain_text_verify").value;
+        try {
+          var isVerified = ecc.verify(signature, plainText, publicKey)
+          document.getElementById("signature_verify_result").innerHTML = isVerified;
+        } catch (error) {
+          console.log('error',error)
+          alert(error.message)
+        }
+      }
+
+      function validatePublicKey(){
+        var publicKey  = document.getElementById("public_key_for_check").value;
+        try {
+          var result = ecc.isValidPublic(publicKey);
+          document.getElementById("public_key_valid").innerHTML = result
+        } catch (error) {
+          alert(error.message);
+        }
+      }                               
+
+      function toggle(id){
+        document.getElementById(id).classList.toggle("hide");
+      }
+    </script>
+  <style>
+    body{
+          padding: 20px;
+        }
+        .mt10{
+          margin-top: 10px;
+        }
+        @media (min-width: 1500px){
+          .container {
+              width: 1470px;
+          }  
+        }
+        .panel-heading{
+          cursor: pointer;
+        }
+        .hide{
+          display: none;
+        }
+    </style>
+</head>
+
+<body>
+  <div class="container">
+    <h3>EOS KEY TOOLS</h3>
+    <p>This is open source that I used library from B1 <a href="https://github.com/EOSIO/eosjs-ecc" target="_blank">eosjs-ecc</a>,
+      All requirement asset files are loaded from CDN and all my js code are written in this HTML file without tracking code or store anywhere.
+      <br />You can set offline mode when working on this page</p>
+    External files used:<br />
+    <code>
+      JS LIB (eosjs-ecc): https://cdn.jsdelivr.net/npm/eosjs-ecc@4.0.4/lib/eosjs-ecc.min.js<br />
+      CSS LIB (bootstrap): https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+      GITHUB Repository: https://github.com/bachvtuan/eos-key-tools
+    </code>
+    <div class="row mt10">
+      <div class="col-md-6">
+        <div class="panel panel-info">
+          <div class="panel-heading" onclick="toggle('generate')">
+            <h3 class="panel-title">Generate Key</h3>
+          </div>
+          <div class="panel-body hide" id="generate">
+            <div class="alert alert-warning" role="alert">Once you click generate button, Key will disppear. Make sure you backup it carefullly</div>
+            <p>Public Key: <span id="public_key" class="code"></span></p>
+            <p>Private Key: <span id="private_key" class="code"></span></p>
+            <button class="btn btn-success" onclick="generateKey()">Generate</button>
+          </div>
+        </div>
+        <div class="panel panel-info">
+          <div class="panel-heading" onclick="toggle('convertprivatekey')">
+            <h3 class="panel-title">Private Key To Public Key</h3>
+          </div>
+          <div class="panel-body hide" id="convertprivatekey">
+            <div class="alert alert-warning" role="alert">Enter your private key here and your public key will be shown</div>
+            <div class="row">
+              <div class="col-md-12">
+                <p>Public Key: <span id="public_key_export" class="code"></span></p>
+                <p>Private Key: <span id="private_key_export" class="code"></span></p>
+                <input class="form-control" id="private_key_check" type="text" placeholder="Enter your EOS private key here">
+                <button class="btn btn-success mt10" onclick="showPublicKey()">Show public key</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="panel panel-info">
+          <div class="panel-heading" onclick="toggle('fromseed')">
+            <h3 class="panel-title">Generate Private Key From Seed</h3>
+          </div>
+          <div class="panel-body hide" id="fromseed">
+            <div class="alert alert-warning" role="alert">Private key is hard to remember, Try seed :)</div>
+            <div class="row">
+              <div class="col-md-12">
+                <p>Public Key: <span id="public_key_seed" class="code"></span></p>
+                <p>Private Key: <span id="private_key_seed" class="code"></span></p>
+                <textarea class="form-control" id="seed" type="text" placeholder="Enter your seed, you can type anything that you like and dont' forget to backup it"></textarea>
+                <button class="btn btn-success mt10" onclick="fromSeed()">Cover to EOS key</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="panel panel-info">
+          <div class="panel-heading" onclick="toggle('validatepublickey')">
+            <h3 class="panel-title">Validate Public Key</h3>
+          </div>
+          <div class="panel-body hide" id="validatepublickey">
+            <div class="alert alert-warning" role="alert">Check public key is valid or not</div>
+            <div class="row">
+              <div class="col-md-12">
+                <p>Is public key valid ? <span id="public_key_valid" class="code"></span></p>
+                <input class="form-control" id="public_key_for_check" type="text" placeholder="Enter EOS public key for check">
+                <button class="btn btn-success mt10" onclick="validatePublicKey()">Validate</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-info">
+          <div class="panel-heading" onclick="toggle('sign')">
+            <h3 class="panel-title">Sign Signature</h3>
+          </div>
+          <div class="panel-body hide" id="sign">
+            <p>Signature Result: <span id="signature_result" class="code"></span></p>
+            <input class="form-control" id="private_key_signature" type="text" placeholder="Enter your EOS private key for sign">
+            <textarea class="form-control mt10" id="plain_text" type="text" placeholder="Raw data that you want to sign"></textarea>
+            <button class="btn btn-success mt10" onclick="sign()">Sign It</button>
+          </div>
+        </div>
+        <div class="panel panel-info">
+          <div class="panel-heading" onclick="toggle('verifysignature')">
+            <h3 class="panel-title">Verify Signature</h3>
+          </div>
+          <div class="panel-body hide" id="verifysignature">
+            <p>Verify Result: <span id="signature_verify_result" class="code"></span></p>
+            <input class="form-control" id="public_key_signature" type="text" placeholder="Enter public EOS for verify">
+            <textarea class="form-control mt10" id="plain_text_verify" type="text" placeholder="Enter raw data"></textarea>
+            <textarea class="form-control mt10" id="signature_for_verify" type="text" placeholder="Enter signature for verify"></textarea>
+            <button class="btn btn-success mt10" onclick="verifySignature()">Verify</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</body>
+
+</html>
