@@ -3,12 +3,6 @@
   <meta charset="utf-8">
   <script src="https://cdn.jsdelivr.net/npm/eosjs-ecc@4.0.4/lib/eosjs-ecc.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <style>
-    .code{
-        font-family: 'Courier New', Courier, monospace;
-        word-break: break-word;
-      }
-    </style>
   <script>
     var ecc = eosjs_ecc
       function generateKey(){
@@ -78,23 +72,27 @@
         document.getElementById(id).classList.toggle("hide");
       }
     </script>
-  <style>
-    body{
-          padding: 20px;
+    <style>
+        body{
+            padding: 20px;
+        }
+        .code{
+            font-family: 'Courier New', Courier, monospace;
+            word-break: break-word;
         }
         .mt10{
-          margin-top: 10px;
+            margin-top: 10px;
         }
         @media (min-width: 1500px){
-          .container {
-              width: 1470px;
-          }  
+            .container {
+                width: 1470px;
+            }
         }
         .panel-heading{
-          cursor: pointer;
+            cursor: pointer;
         }
         .hide{
-          display: none;
+            display: none;
         }
     </style>
 </head>
@@ -138,7 +136,6 @@
                 <button class="btn btn-success mt10" onclick="showPublicKey()">Show public key</button>
               </div>
             </div>
-
           </div>
         </div>
         <div class="panel panel-info">
@@ -155,7 +152,6 @@
                 <button class="btn btn-success mt10" onclick="fromSeed()">Cover to EOS key</button>
               </div>
             </div>
-
           </div>
         </div>
         <div class="panel panel-info">
@@ -171,10 +167,8 @@
                 <button class="btn btn-success mt10" onclick="validatePublicKey()">Validate</button>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
       <div class="col-md-6">
         <div class="panel panel-info">
@@ -202,9 +196,6 @@
         </div>
       </div>
     </div>
-
-
   </div>
 </body>
-
 </html>
