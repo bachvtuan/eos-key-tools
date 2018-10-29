@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
       body{
-          padding: 20px;
+          padding: 20px 0px;
       }
       .code, code{
           font-family: 'Courier New', Courier, monospace;
@@ -16,6 +16,9 @@
       }
       .mt10{
           margin-top: 10px;
+      }
+      .panel-body{
+        padding: 12px;
       }
       @media (min-width: 1500px){
           .container {
@@ -74,7 +77,7 @@
               <div class="col-md-12">
                 <p>Public Key: <span id="public_key_seed" class="code"></span></p>
                 <p>Private Key: <span id="private_key_seed" class="code"></span></p>
-                <textarea class="form-control" id="seed" type="text" placeholder="Enter your seed, you can type anything that you like and dont' forget to backup it"></textarea>
+                <textarea class="form-control" rows="5" id="seed" type="text" placeholder="Enter your seed, you can type anything that you like and dont' forget to backup it"></textarea>
                 <button class="btn btn-success mt10" onclick="fromSeed()">Convert to EOS key</button>
               </div>
             </div>
@@ -104,7 +107,7 @@
           <div class="panel-body hide" id="sign">
             <p>Signature Result: <span id="signature_result" class="code"></span></p>
             <input class="form-control" id="private_key_signature" type="text" placeholder="Enter your EOS private key for sign">
-            <textarea class="form-control mt10" id="plain_text" type="text" placeholder="Plain data that you want to sign"></textarea>
+            <textarea class="form-control mt10" rows="5" id="plain_text" type="text" placeholder="Plain data that you want to sign"></textarea>
             <button class="btn btn-success mt10" onclick="sign()">Sign It</button>
           </div>
         </div>
@@ -115,15 +118,13 @@
           <div class="panel-body hide" id="verifysignature">
             <p>Verify Result: <span id="signature_verify_result" class="code"></span></p>
             <input class="form-control" id="public_key_signature" type="text" placeholder="Enter public EOS">
-            <textarea class="form-control mt10" id="plain_text_verify" type="text" placeholder="Enter plain data"></textarea>
-            <textarea class="form-control mt10" id="signature_for_verify" type="text" placeholder="Enter signature result"></textarea>
+            <textarea class="form-control mt10" rows="5" id="plain_text_verify" type="text" placeholder="Enter plain data"></textarea>
+            <textarea class="form-control mt10" rows="5" id="signature_for_verify" type="text" placeholder="Enter signature result"></textarea>
             <button class="btn btn-success mt10" onclick="verifySignature()">Verify</button>
           </div>
         </div>
       </div>
     </div>
-
-
     <footer class="bs-docs-footer mt10">
       <div class="container">
         <p>This is <a href="https://github.com/bachvtuan/eos-key-tools" target="_blank" >open source</a> that I used library from B1 <a href="https://github.com/EOSIO/eosjs-ecc" target="_blank">eosjs-ecc</a>,
